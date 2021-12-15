@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   initState() {
     super.initState();
-
+    //fetchData();
     getRepoData();
   }
 
@@ -47,8 +47,9 @@ class _HomeState extends State<Home> {
       } else {
         return false;
       }
-    } catch (e) {
-      throw Exception(e);
+    } catch (SocketException) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Connect to Internet")));
     }
   }
 
@@ -77,7 +78,7 @@ class _HomeState extends State<Home> {
                 rfController.loadFailed();
               }
             },
-            child: ListView.separated(
+            child: ListView.builder(
               itemBuilder: (context, index) {
                 final repo = repos[index];
                 return ListTile(
@@ -132,7 +133,7 @@ class _HomeState extends State<Home> {
                   ),
                 );
               },
-              separatorBuilder: (context, index) => Divider(),
+              //  separatorBuilder: (context, index) => Divider(),
               itemCount: repos.length,
             )));
   }
